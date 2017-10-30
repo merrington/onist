@@ -1,0 +1,14 @@
+body {
+  padding-top: 30px;
+  padding-left: 150px;
+
+  font-family: 'ProximaNova', 'Montserrat', sans-serif;
+}
+
+.childSection > * {
+  padding-top: 15px;
+}
+
+.childSection:first-of-type > * {
+  padding-top: 0px;
+}
