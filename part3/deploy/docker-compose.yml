@@ -1,0 +1,36 @@
+version: '3',
+services:
+  web: 
+    image: 'nginx:1.13-alpine'
+    depends_on:
+      - mongo
+      - orgs
+      - comments
+      - members
+  mongo:
+    image: 'mongo:3.4'
+    expose:
+      - "27017"
+  orgs:
+    depends_on:
+      - mongo
+    expose:
+      - "8080"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      #- GITHUB_TOKEN=
+  comments:
+    depends_on:
+      - mongo
+    expose:
+      - "8080"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      #- GITHUB_TOKEN=
+  members:
+    depends_on:
+      - mongo
+    expose:
+      - "8080"
+    environment:
+      #- GITHUB_TOKEN=
