@@ -5,7 +5,7 @@ const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const _ = require('lodash');
 
-const initDB = require('./setup');
+const initDB = require('../utils/initDB');
 const github = require('../utils/github');
 
 const app = new Koa();
@@ -13,14 +13,16 @@ const router = new Router();
 
 getOrgName = ctx => ctx.params.orgName;
 
-initDB(db => {
+initDB('comments', db => {
   app.context.db = db;
 
   router.post('/orgs/:orgName/comments', async function(ctx) {
     const orgName = getOrgName(ctx);
     const comment = _.get(ctx, 'request.body.comment', undefined);
 
+    //verify org exists
     const org = github.getOrg(orgName);
+
     if (org && comment) {
       const res = await ctx.db.insertOne({
         orgName,
