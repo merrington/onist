@@ -1,12 +1,15 @@
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const Koa = require('koa');
 const Router = require('koa-router');
-const bodyParser = require('koa-bodyparser');
 const _ = require('lodash');
 
 const initDB = require('../utils/initDB');
-const github = require('../utils/github');
+const Github = require('../utils/github');
+
+const github = new Github();
 
 const app = new Koa();
 const router = new Router();
@@ -32,7 +35,6 @@ initDB('comments', db => {
     }
   });
 
-  app.use(bodyParser());
   app.use(router.routes());
   app.use(router.allowedMethods());
 
